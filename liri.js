@@ -32,7 +32,28 @@
 
   function spotifyThisSong(songName) {
 
-    var songName = process.argv[3];
+    // var songName = process.argv[3];
+
+    // if(!songName){
+    //   songName = "The Sign";
+    // }
+    // params = songName;
+    // spotify.search({ type: "track", query: params }, function(err, data) {
+    //   if(!err){
+    //     var songInfo = data.tracks.(something);
+    //     for (var i = 0; i < 5; i++) {
+    //       if (songInfo[i] != undefined) {
+    //         var spotifyResults = (HTML results here)
+    //         console.log(spotifyResults);
+    //         log(spotifyResults);
+    //       }
+    //     }
+    //   }
+    //  else {
+    //     console.log("Error :"+ err);
+    //     return;
+    //   }
+    // });
 
   };
 
@@ -40,10 +61,68 @@
 
     var movie = process.argv[3];
 
+        request('http://www.omdbapi.com/?t=' + movie + '&y=&plot=short&tomatoes=true&apikey=40e9cece&r=json', function(error, response, body) {
+
+        if (movie != "") {
+
+            console.log("Title: " + JSON.parse(body).Title);
+            console.log("");
+            console.log("Release Year: " + JSON.parse(body).Year);
+            console.log("");
+            console.log("Rating: " + JSON.parse(body).imdbRating);
+            console.log("");
+            console.log("Rotten Tomato Rating: " + JSON.parse(body).tomatoRating);
+            console.log("");
+            console.log("Country: " + JSON.parse(body).Country);
+            console.log("");
+            console.log("Language:: " + JSON.parse(body).Language);
+            console.log("");
+            console.log("Plot: " + JSON.parse(body).Plot);
+            console.log("");
+            console.log("Actors: " + JSON.parse(body).Actors);
+            console.log("");
+
+        }
+
+        else {
+
+            var request = require('request');
+
+            request('http://www.omdbapi.com/?t=mr+nobody&y=&plot=short&tomatoes=true&apikey=40e9cece&r=json', function(error, response, body) {
+
+                console.log("Title: " + JSON.parse(body).Title);
+                console.log("");
+                console.log("Release Year: " + JSON.parse(body).Year);
+                console.log("");
+                console.log("Rating: " + JSON.parse(body).imdbRating);
+                console.log("");
+                console.log("Rotten Tomato Rating: " + JSON.parse(body).tomatoRating);
+                console.log("");
+                console.log("Country: " + JSON.parse(body).Country);
+                console.log("");
+                console.log("Language: " + JSON.parse(body).Language);
+                console.log("");
+                console.log("Plot: " + JSON.parse(body).Plot);
+                console.log("");
+                console.log("Actors: " + JSON.parse(body).Actors);
+                console.log("");
+            });
+        }
+    });
+
   };
 
   function doWhatItSays() {
 
+      fs.readFile("random.txt", "utf8", function(error, data){
+      if (!error) {
+        dWISquery = data.split(",");
+        spotifyThisSong(dWISquery[0], dWISquery[1]);
+      }
+      else {
+        console.log("Error!" + error);
+      }
+    });
   };
 
   // log function
